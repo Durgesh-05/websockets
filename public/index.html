@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="./output.css" rel="stylesheet" />
+  </head>
+  <body>
+    <input
+      type="text"
+      name="inputValue"
+      id="inputValue"
+      placeholder="Enter message"
+      class="border-2 border-black border-solid p-3 m-4 w-fit"
+    />
+    <button
+      id="sendMessage"
+      class="border-2 border-black border-solid p-3 my-4 w-fit"
+    >
+      Send
+    </button>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const socket = io();
+      socket.on('message-recieved', ({ msg, data }) => {
+        console.log(`Data Recieved from server Msg: ${msg} & Data: ${data}`);
+      });
+      const input = document.getElementById('inputValue');
+      const sendMessage = document.getElementById('sendMessage');
+      sendMessage.addEventListener('click', (e) => {
+        socket.emit('message', input.value);
+      });
+    </script>
+  </body>
+</html>
